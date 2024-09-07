@@ -1,8 +1,8 @@
-import express,{Express} from 'express'
+import app from './app';
 import { env } from './config/envConfig';
 import connectDB from './db/dbConnection';
 
-const app:Express = express();
+
 
 const port = env.PORT;
 
