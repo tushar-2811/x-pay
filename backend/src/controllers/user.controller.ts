@@ -1,6 +1,7 @@
 import {Request , Response} from 'express'
 import {signUpSchema} from '../schemas/signupSchema'
-import UserModel from '../models/user.model';
+import UserModel from '../models/user.model'
+import WalletModel from '../models/wallet.model'
 import {updateUserSchema} from '../schemas/updateUserSchema'
 
 
@@ -36,12 +37,20 @@ export const signUpController = async(req: Request , res:Response) => {
             email , name , password
         })
 
+        const newWallet = await WalletModel.create({
+            owner : newUser._id,
+            balance : 1 * Math.random() * 10000
+        })
+
         const newCreatedUser = await UserModel.findById(newUser._id).select("-password -refreshToken")
 
         return res.status(200).json({
             ok : true,
             message : "Account created successfully",
-            data : newCreatedUser
+            data : {
+                user : newCreatedUser,
+                wallet : newWallet
+            }
         })
 
 
