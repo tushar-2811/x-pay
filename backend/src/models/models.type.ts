@@ -1,8 +1,13 @@
-import {Document} from 'mongoose'
+import {Document , Types} from 'mongoose'
 
 export interface User extends Document {
-      email : String,
-      name : String,
-      password : String,
-      refreshToken : String
+      email : string;
+      name : string;
+      password : string;
+      refreshToken : string;
+}
+
+export interface Wallet extends Document{
+      balance : number;
+      owner : Types.ObjectId
 }

@@ -90,3 +90,38 @@ export const updateUserController = async(req: Request , res:Response) => {
         })
      }
 }
+
+export const findUsersController = async(req:Request , res:Response) => {
+    try {
+        const filter = req.query.filter || "";
+
+        const allUsersWithFilter = await UserModel.find({
+            $or : [{
+                 email :   {
+                    "$regex" : filter
+                }
+            },
+            {
+                name : {
+                    "$regex" : filter
+                }
+            }
+            ]
+        }).select("-password -refreshToken");
+
+        return res.status(201).json({
+            ok : true,
+            message : "request successfull",
+            data : allUsersWithFilter
+        })
+
+        
+    } catch (error) {
+        console.log("error while finding users" , error);
+        return res.status(501).json({
+            ok : false,
+            message : "failed to search users",
+            errro : error 
+        })
+    }
+}
