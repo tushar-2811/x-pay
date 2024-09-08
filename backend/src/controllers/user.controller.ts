@@ -1,6 +1,7 @@
 import {Request , Response} from 'express'
 import {signUpSchema} from '../schemas/signupSchema'
 import UserModel from '../models/user.model';
+import {updateUserSchema} from '../schemas/updateUserSchema'
 
 
 export const signInController = async(req: Request , res:Response) => {
@@ -55,5 +56,37 @@ export const signUpController = async(req: Request , res:Response) => {
 
 
 export const updateUserController = async(req: Request , res:Response) => {
-    
+     try {
+        const parsedInput = updateUserSchema.safeParse(req.body);
+        const userId = req.headers["user"];
+
+        if(!parsedInput.success){
+            return res.status(403).json({
+                ok : false,
+                message : "input data is not valid",
+                error : parsedInput.error
+            })
+        }
+
+
+        const updatedUser = await UserModel.updateOne(req.body , {
+            _id : userId
+        },{new : true}).select("-password , -refreshToken");
+
+        return res.status(201).json({
+            ok : true,
+            message : "User updated successfully",
+            data : updatedUser
+        })
+
+        
+        
+     } catch (error) {
+        console.log("error while updating user" , error);
+        return res.status(501).json({
+            ok : true,
+            message : "error while updating the user",
+            error : error
+        })
+     }
 }
