@@ -4,7 +4,11 @@ import UserModel from '../models/user.model';
 
 
 export const signInController = async(req: Request , res:Response) => {
-     try {
+    
+}
+
+export const signUpController = async(req: Request , res:Response) => {
+    try {
         const {email , name , password} = req.body;
         const parsedInput = signUpSchema.safeParse({
             email , name , password
@@ -47,10 +51,6 @@ export const signInController = async(req: Request , res:Response) => {
             error : error
          })
      }
-}
-
-export const signUpController = async(req: Request , res:Response) => {
-    
 }
 
 
