@@ -4,6 +4,7 @@ import Button from '../components/Button'
 import BottomTag from '../components/BottomTag'
 
 
+
 const SignIn = () => {
   const [data , setData] = useState({
     email : "",
@@ -17,8 +18,10 @@ const SignIn = () => {
        }))
    }
 
-   const onSubmit = () => {
+   const onSubmit = async() => {
      console.log(data);
+     
+
    }
   return (
     <div className=''>

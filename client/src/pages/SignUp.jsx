@@ -2,13 +2,18 @@ import React, { useState } from 'react'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import BottomTag from '../components/BottomTag'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const SignUp = () => {
    const [data , setData] = useState({
     email : "",
     name : "",
     password : ""
-   })
+   });
+   const [isLoading , setIsLoading] = useState(false);
+
+   const navigate = useNavigate();
 
    const onChange = (e) => {
        setData(prev => ({
@@ -17,8 +22,28 @@ const SignUp = () => {
        }))
    }
 
-   const onSubmit = () => {
+   const onSubmit = async() => {
      console.log(data);
+    try {
+      setIsLoading(true);
+      const response = await axios.post('http://localhost:4000/api/v1/user/sign-up' , {
+        email : data.email,
+        name : data.name,
+        password : data.password
+      });
+
+      if(!response.data.ok){
+         // show that sign up is not done 
+         return;
+      }else{
+         navigate('/signin');
+      }
+    } catch (error) {
+      console.log("Error while sign up" , error);
+    }finally{
+      setIsLoading(false);
+    }
+    
    }
   return (
     <div className=''>
@@ -32,7 +57,7 @@ const SignUp = () => {
               <Input type={"email"} value={data.email} placeholder={"email"} label={"Email"} name={"email"} onChange={onChange}/>
               <Input type={"text"} value={data.name} placeholder={"name"} label={"Name"} name={"name"} onChange={onChange}/>
               <Input type={"password"} value={data.password} name={"password"} placeholder={"password"} label={"Password"} onChange={onChange}/>
-              <Button title={"Create Account"} onSubmit={onSubmit}/>
+              <Button title={"Create Account"} onSubmit={onSubmit} disabled={isLoading}/>
           </div>
 
           <div className='mt-8'>
