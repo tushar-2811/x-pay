@@ -1,9 +1,25 @@
-import React from 'react'
+import React , {useState} from 'react'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import BottomTag from '../components/BottomTag'
 
+
 const SignIn = () => {
+  const [data , setData] = useState({
+    email : "",
+    password : ""
+   })
+
+   const onChange = (e) => {
+       setData(prev => ({
+        ...prev,
+        [e.target.name] : e.target.value
+       }))
+   }
+
+   const onSubmit = () => {
+     console.log(data);
+   }
   return (
     <div className=''>
        <h1 className='text-center my-5 text-2xl font-bold text-red-500'>Xpay</h1>
@@ -13,9 +29,9 @@ const SignIn = () => {
         <h3 className='text-center text-md text-white/70'>Enter Credentials</h3>
 
         <div className='mt-8'>
-            <Input type={"email"} placeholder={"email"} label={"Email"}/>
-            <Input type={"password"} placeholder={"password"} label={"Password"}/>
-            <Button title={"Sign In"}/>
+        <Input type={"email"} value={data.email} placeholder={"email"} label={"Email"} name={"email"} onChange={onChange}/>
+              <Input type={"password"} value={data.password} name={"password"} placeholder={"password"} label={"Password"} onChange={onChange}/>
+              <Button title={"Sign In"} onSubmit={onSubmit}/>
         </div>
 
         <div className='mt-8'>
