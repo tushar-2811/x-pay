@@ -6,8 +6,7 @@ export const useDebounce = (inputValue , timeout) => {
 
      useEffect(() => {
         let timerId = setTimeout(() => {
-           // do stuff backend calls
-           setDebouncedData("");
+           setDebouncedData(value);
         },timeout)
 
         return () => {
