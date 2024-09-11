@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const useFetchUsers = async(time) => {
+const useFetchUsers = (time) => {
      const [data , setData] = useState([]);
      const [isLoading , setIsLoading] = useState(true);
 
